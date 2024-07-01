@@ -25,3 +25,14 @@ exports.scrape = catchAsync(
     }
   }
 );
+
+exports.getAllItems = catchAsync(async (req: Request, res: Response) => {
+  const items = await Item.find();
+  res.status(200).json({ items });
+});
+
+exports.getItem = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const item = await Item.findOne({ _id: id });
+  res.status(200).json({ item });
+});

@@ -11,11 +11,7 @@ app.use(cors());
 
 app.use(express.json());
 
-app.get("/", (req: Request, res: Response) => {
-  res.send("HEllo");
-});
-
-app.use("/api/v1/scrape", scrapeRoute);
+app.use("/api/v1/", scrapeRoute);
 
 app.all("*", (req: Request, res: Response, next: NextFunction) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
