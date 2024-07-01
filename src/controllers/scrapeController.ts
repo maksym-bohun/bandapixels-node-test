@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import catchAsync from "../utils/catchAsync";
-import AppError from "../utils/appError";
+const Item = require("../models/itemModel");
 const axios = require("axios");
 const scrapeRozetka = require("../services/scrapeRozetka.service");
 const scrapeTelemart = require("../services/scrapeTelemart.service");
@@ -13,11 +13,13 @@ exports.scrape = catchAsync(
     const html = response.data;
 
     if (url.startsWith("https://rozetka.com")) {
-      const result = scrapeRozetka(html);
-      res.json({ result });
+      const item = scrapeRozetka(html);
+      await Item.create(item);
+      res.json({ item });
     } else if (url.startsWith("https://telemart.ua")) {
-      const result = scrapeTelemart(html);
-      res.json({ result });
+      const item = scrapeTelemart(html);
+      await Item.create(item);
+      res.json({ item });
     } else {
       res.send("Error");
     }

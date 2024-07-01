@@ -7,6 +7,6 @@ export interface ItemData {
   price: number;
   specifications: string;
   type: string;
-  profileImage: string;
+  profileImage: string | undefined;
   source: Source;
 }

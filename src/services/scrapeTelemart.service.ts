@@ -5,16 +5,26 @@ const cheerio = require("cheerio");
 
 const scrapeTelemart = (html: string): ItemData => {
   const $ = cheerio.load(html);
+  const maxDescriptionLength = process.env.DESCRIPTION_MAX_LENGTH
+    ? parseInt(process.env.DESCRIPTION_MAX_LENGTH, 10)
+    : 2048;
+  const maxSpecificationLength = process.env.SPECIFICATION_MAX_LENGTH
+    ? parseInt(process.env.SPECIFICATION_MAX_LENGTH, 10)
+    : 2048;
 
   const title = $(".card-block__title").text();
-  const description = $(".card-block__description-text").text();
+  let description = $(".card-block__description-text")?.text().trim() || null;
   const price = parseInt(
     $(".card-block__price-summ").text().replace(/\s/g, "")
   );
   const type = $(".breadcrumb-ins>li").last().prev().find("a").text().trim();
 
   const profileImage = $(".card-block__gallery-main .img-fluid").attr("src");
-  const source = Source.Telemart;
+  const source = Source.TELEMART;
+
+  if (description?.length > maxDescriptionLength) {
+    description = description.substring(0, maxDescriptionLength - 3) + "...";
+  }
 
   // specifications
   const specifications: SpecificationsData[] = [];
@@ -36,6 +46,10 @@ const scrapeTelemart = (html: string): ItemData => {
   specifications.map(
     (item) => (specificationStr += `${item.label}: ${item.value} \n`)
   );
+  if (specificationStr.length > maxSpecificationLength) {
+    specificationStr =
+      specificationStr.substring(0, maxSpecificationLength - 3) + "...";
+  }
 
   const result: ItemData = {
     title,

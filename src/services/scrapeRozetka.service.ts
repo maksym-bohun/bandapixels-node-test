@@ -1,18 +1,28 @@
 import { ItemData } from "../types/itemData.interface";
 import { Source } from "../types/source.enum";
 import { SpecificationsData } from "../types/specificationsData.interface";
-
-const cheerio = require("cheerio");
+import cheerio from "cheerio";
 
 const scrapeRozetka = (html: string): ItemData => {
   const $ = cheerio.load(html);
+  const maxDescriptionLength = process.env.DESCRIPTION_MAX_LENGTH
+    ? parseInt(process.env.DESCRIPTION_MAX_LENGTH, 10)
+    : 2048;
+  const maxSpecificationLength = process.env.SPECIFICATION_MAX_LENGTH
+    ? parseInt(process.env.SPECIFICATION_MAX_LENGTH, 10)
+    : 2048;
 
   const title = $("h1").text();
   const subtitle = $(".product-about__sticky > p.ng-star-inserted").text();
-  const description = $(".product-about__description-content").text();
+  let description = $(".product-about__description-content")?.text().trim();
   const price = parseInt(
-    $(".product-price__big").text().slice(0, -1).replace(/\s/g, "")
+    $(".product-price__big").text().replace(/\s/g, "").slice(0, -1),
+    10
   );
+
+  if (description.length > maxDescriptionLength) {
+    description = description.substring(0, maxDescriptionLength - 3) + "...";
+  }
 
   const type = $("ul.breadcrumbs > li")
     .last()
@@ -22,7 +32,7 @@ const scrapeRozetka = (html: string): ItemData => {
     .trim()
     .replace("/", "");
   const profileImage = $(".picture-container__picture").attr("src");
-  const source = Source.Rozetka;
+  const source = Source.ROZETKA;
 
   // specifications
   const specifications: SpecificationsData[] = [];
@@ -37,13 +47,18 @@ const scrapeRozetka = (html: string): ItemData => {
   });
 
   let specificationStr = "";
-  specifications.map(
-    (item) => (specificationStr += `${item.label}: ${item.value} \n`)
-  );
+  specifications.forEach((item) => {
+    specificationStr += `${item.label}: ${item.value} \n`;
+  });
+
+  if (specificationStr.length > maxSpecificationLength) {
+    specificationStr =
+      specificationStr.substring(0, maxSpecificationLength - 3) + "...";
+  }
 
   const result: ItemData = {
     title,
-    subtitle,
+    subtitle: subtitle === "" ? null : subtitle,
     description,
     price,
     specifications: specificationStr,

@@ -1,4 +1,4 @@
 export enum Source {
-  Rozetka = "rozetka",
-  Telemart = "telemart",
+  ROZETKA = "rozetka",
+  TELEMART = "telemart",
 }
