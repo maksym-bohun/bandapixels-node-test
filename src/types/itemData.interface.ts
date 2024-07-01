@@ -1,5 +1,4 @@
 import { Source } from "./source.enum";
-import { SpecificationsData } from "./specificationsData.interface";
 
 export interface ItemData {
   title: string;
