@@ -13,7 +13,7 @@ const renderSpecifications = (specifications: string) => {
       return (
         <SpecificationRow key={index}>
           <SpecificationHeader>{label}:</SpecificationHeader>
-          {value?.split(",")}
+          {value}
         </SpecificationRow>
       );
     }

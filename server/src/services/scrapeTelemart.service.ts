@@ -34,8 +34,13 @@ const scrapeTelemart = (html: string): ItemData => {
         .find(".card-block__specific-col:first-child")
         .text()
         .trim();
-      const values = $(element)
+      const htmlContent = $(element)
         .find(".card-block__specific-col:last-child")
+        .html();
+      const processedHtml = htmlContent.replace(/<br\s*\/?>/gi, ", ");
+
+      const values = $("<div>")
+        .html(processedHtml)
         .text()
         .trim()
         .replace(/\s+/g, " ");
