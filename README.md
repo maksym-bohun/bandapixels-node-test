@@ -1,10 +1,12 @@
-##Web Scrapper
+## Web Scrapper
 
-###Project Description:
-####Task:
+### Project Description:
+
+#### Task:
+
 Build an API that scrapes information from rozetka.com and telemart.ua, saving data in JSON format to a database.
 
-####Required Information:
+#### Required Information:
 
 - Item title (String, max 256 chars)
 - Item subtitle (String, nullable, max 256 chars)
@@ -15,14 +17,15 @@ Build an API that scrapes information from rozetka.com and telemart.ua, saving d
 - Item profile image (String, max 1024 chars)
 - Item source (Enum: rozetka/telemart)
 
-####Technology Stack:
+#### Technology Stack:
 
 - TypeScript, Express for server-side framework
 - MongoDB database.
 - React, Styled-components for client-side
 
-###Getting Started
-####Server Setup
+### Getting Started
+
+#### Server Setup
 
 1. Navigate to the server directory:
 
@@ -60,7 +63,7 @@ npm start
 
 This will start the server at http://localhost:8000.
 
-####Client Setup
+#### Client Setup
 
 1. Navigate to the client directory:
 
@@ -82,17 +85,20 @@ npm start
 
 This will start the client application in development mode and open it in your default web browser at http://localhost:3000.
 
-###Api documentation
+### Api documentation
 
 #### Base URL
 
 All endpoints are relative to the base URL: http://localhost:8000/api/v1/
 
-####Endpoints
-#####Scraping Endpoint
+#### Endpoints
+
+##### Scraping Endpoint
+
 `POST /`
 Scrapes product information from the provided URL of Rozetka or Telemart.
-######Request
+
+###### Request
 
 - URL: `/`
 - Method: `POST`
@@ -106,18 +112,20 @@ Scrapes product information from the provided URL of Rozetka or Telemart.
 }
 ```
 
-#####Retrieve Items Endpoints
+##### Retrieve Items Endpoints
+
 `GET /`
 Retrieves a list of all scraped items.
 
-######Request
+###### Request
 
 - URL: `/`
 - Method: GET
 
 `GET /:id`
 Retrieves details of a specific item by its ID.
-######Request
+
+###### Request
 
 - URL: `/:id`
 - Method: GET
