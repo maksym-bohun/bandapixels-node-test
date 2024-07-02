@@ -4,7 +4,6 @@ import { ItemData } from "../types/itemData.interface";
 import { Source } from "../types/source.enum";
 import rozetkaIcon from "../media/Rozetka.png";
 import telemartIcon from "../media/Telemart.jpeg";
-import { useNavigate } from "react-router-dom";
 
 const renderSpecifications = (specifications: string) => {
   const specificationsArray = specifications.split("\n");
@@ -22,17 +21,13 @@ const renderSpecifications = (specifications: string) => {
 };
 
 const ItemCard: React.FC<{ item: ItemData }> = ({ item }) => {
-  const navigate = useNavigate();
-
   const specifications = renderSpecifications(item.specifications);
   let sourceIcon;
 
   if (item.source === Source.ROZETKA) sourceIcon = rozetkaIcon;
   else if (item.source === Source.TELEMART) sourceIcon = telemartIcon;
 
-  const navigateToItemPageHandler = () => {
-    navigate(`/${item._id}`);
-  };
+  const navigateToItemPageHandler = () => {};
 
   return (
     <Container onClick={navigateToItemPageHandler}>
