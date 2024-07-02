@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { ItemData } from "../types/itemData.interface";
-import ItemCard from "../components/ItemCard.component";
-import { styled } from "styled-components";
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { ItemData } from '../types/itemData.interface';
+import ItemCard from '../components/ItemCard.component';
+import { styled } from 'styled-components';
 
 const fetchItems = async () => {
-  const res = await axios.get("http://localhost:8000/api/v1/");
+  const res = await axios.get('http://localhost:8000/api/v1/');
   return res.data.items;
 };
 
@@ -18,20 +18,23 @@ const Home = () => {
         if (Array.isArray(fetchedItems)) {
           setItems(fetchedItems);
         } else {
-          console.error("Expected array of items, received:", fetchedItems);
+          console.error('Expected array of items, received:', fetchedItems);
         }
       } catch (error) {
-        console.error("Error fetching items:", error);
+        console.error('Error fetching items:', error);
       }
     };
 
     fetchItemsData();
   }, []);
 
-  console.log("ITEMS ", items);
+  console.log('ITEMS ', items);
   return (
     <Container>
       <Header>All items</Header>
+      {items.length === 0 && (
+        <EmptyListHeader>There is no items yet!</EmptyListHeader>
+      )}
       {items.map((item) => (
         <ItemCard item={item} key={item._id} />
       ))}
@@ -47,10 +50,23 @@ const Container = styled.section`
   gap: 40px;
   width: 50%;
   margin: 50px auto;
+
+  @media (max-width: 900px) {
+    width: 80%;
+  }
+
+  @media (max-width: 500px) {
+    width: 90%;
+  }
 `;
 
 const Header = styled.h1`
   font-weight: 600;
   text-align: center;
   font-size: 30px;
+`;
+const EmptyListHeader = styled.div`
+  text-align: center;
+  font-size: 25px;
+  margin: 20px;
 `;
