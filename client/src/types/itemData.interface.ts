@@ -10,4 +10,5 @@ export interface ItemData {
   type: string;
   profileImage: string | undefined;
   source: Source;
+  itemUrl: string;
 }

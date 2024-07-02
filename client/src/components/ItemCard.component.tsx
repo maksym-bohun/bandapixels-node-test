@@ -27,34 +27,39 @@ const ItemCard: React.FC<{ item: ItemData }> = ({ item }) => {
   if (item.source === Source.ROZETKA) sourceIcon = rozetkaIcon;
   else if (item.source === Source.TELEMART) sourceIcon = telemartIcon;
 
-  const navigateToItemPageHandler = () => {};
-
   return (
-    <Container onClick={navigateToItemPageHandler}>
-      <SourceLabel src={sourceIcon} />
-      <h2>{item.title}</h2>
-      <Image src={item.profileImage} alt="profile image" />
-      <PriceContainer>{item.price}₴</PriceContainer>
-      <TypeContainer>
-        <h3>Тип: </h3>
-        {item.type}
-      </TypeContainer>
-      {item.subtitle && <Subtitle>{item.subtitle}</Subtitle>}
-      {item.description && (
-        <div>
-          <h3>Опис:</h3>
-          <div>{item.description}</div>
-        </div>
-      )}
-      <SpecificationsContainer>
-        <h3>Характеристики:</h3>
-        {specifications}
-      </SpecificationsContainer>
-    </Container>
+    <Anchor href={item.itemUrl} target="_blank">
+      <Container>
+        <SourceLabel src={sourceIcon} />
+        <h2>{item.title}</h2>
+        <Image src={item.profileImage} alt="profile image" />
+        <PriceContainer>{item.price}₴</PriceContainer>
+        <TypeContainer>
+          <h3>Тип: </h3>
+          {item.type}
+        </TypeContainer>
+        {item.subtitle && <Subtitle>{item.subtitle}</Subtitle>}
+        {item.description && (
+          <div>
+            <h3>Опис:</h3>
+            <div>{item.description}</div>
+          </div>
+        )}
+        <SpecificationsContainer>
+          <h3>Характеристики:</h3>
+          {specifications}
+        </SpecificationsContainer>
+      </Container>
+    </Anchor>
   );
 };
 
 export default ItemCard;
+
+const Anchor = styled.a`
+  color: inherit;
+  text-decoration: none;
+`;
 
 const Container = styled.div`
   padding: 20px;
@@ -63,7 +68,6 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   position: relative;
-  cursor: pointer;
 `;
 
 const SourceLabel = styled.img`
