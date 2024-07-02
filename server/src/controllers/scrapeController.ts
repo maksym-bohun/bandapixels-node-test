@@ -14,11 +14,11 @@ exports.scrape = catchAsync(
 
     if (url.startsWith("https://rozetka.com")) {
       const item = scrapeRozetka(html);
-      await Item.create(item);
+      await Item.create({ ...item, itemUrl: url });
       res.json({ item });
     } else if (url.startsWith("https://telemart.ua")) {
       const item = scrapeTelemart(html);
-      await Item.create(item);
+      await Item.create({ ...item, itemUrl: url });
       res.json({ item });
     } else {
       res.send("Error");

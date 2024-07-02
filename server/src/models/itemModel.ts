@@ -34,6 +34,9 @@ const itemSchema = new mongoose.Schema({
     type: String,
     enum: ["rozetka", "telemart"],
   },
+  itemUrl: {
+    type: String,
+  },
 });
 
 const Item = mongoose.model("Item", itemSchema);
